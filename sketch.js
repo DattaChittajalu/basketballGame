@@ -32,26 +32,26 @@ function setup() {
 	world = engine.world;
   
 
-  groundObject=new ground(width/2,windowHeight-10,width,20);
+  groundObject=new ground(windowWidth/2,windowHeight-10,width,20);
 
   stone1=new Stone(windowWidth/6,windowHeight/2,30)
 
   slingshot=new SlingShot(stone1.body, {x:windowWidth/6,y:windowHeight/2})
 
-  basket11 = new ground(width/2-200, windowHeight/2-95, 20,100)
-  basket12 = new ground(width/2+100, windowHeight/2-95, 20,100)
-  basket13 = new ground(width/2-50, windowHeight/2-50, 320,20)
+  basket11 = new ground(windowWidth/2-200, windowHeight/2-95, 20,100)
+  basket12 = new ground(windowWidth/2+100, windowHeight/2-95, 20,100)
+  basket13 = new ground(windowWidth/2-50, windowHeight/2-50, 320,20)
 
-  basket21 = new ground(width/2+450, windowHeight/2+295, 20,100)
-  basket22 = new ground(width/2+750, windowHeight/2+295, 20,100)
-  basket23 = new ground(width/2+600, windowHeight/2+350, 320,20)
-
-
+  basket21 = new ground(windowWidth/2+450, windowHeight/2+295, 20,100)
+  basket22 = new ground(windowWidth/2+750, windowHeight/2+295, 20,100)
+  basket23 = new ground(windowWidth/2+600, windowHeight/2+350, 320,20)
 
 
-  basket31 = new ground(width/2+300, windowHeight/2-220, 20,100)
-  basket32 = new ground(width/2+600, windowHeight/2-220, 20,100)
-  basket33 = new ground(width/2+450, windowHeight/2-170, 320,20)
+
+
+  basket31 = new ground(windowWidth/2+300, windowHeight/2-220, 20,100)
+  basket32 = new ground(windowWidth/2+600, windowHeight/2-220, 20,100)
+  basket33 = new ground(windowWidth/2+450, windowHeight/2-170, 320,20)
 
   Engine.run(engine);
   //Render.run(render);
@@ -79,8 +79,9 @@ function draw() {
     text("Scoring: Each basket made is 2 points", windowWidth/2-200,windowHeight/2+100)
     text("To start the game, press the up arrow key", windowWidth/2-210, windowHeight/2+200)
 
-     if(keyDown(UP_ARROW)){
+     if(keyDown(UP_ARROW) || touches.length>0){
         gameState=1
+        touches=[]
     }
   }
 
@@ -137,14 +138,21 @@ function keyPressed(){
 }
 
 function collision(object1,object2){
-  if (object1.x - object2.x < object2.width/2 + object1.width/2
-    && object2.x - object1.x < object2.width/2 + object1.width/2
-    && object1.y - object2.y < object2.height/2 + object1.height/2
-    && object2.y - object2.y < object2.height/2 + object1.height/2) {
-    
-    score=score+1;
 
-    console.log("testing")
+  if( (object1.body.position.y <= windowHeight/2-170 && object1.body.position.y > windowHeight/2-190 ||
+       object1.body.position.y <= windowHeight/2+350 && object1.body.position.y > windowHeight/2+330 ||
+       object1.body.position.y <= windowHeight/2-50 && object1.body.position.y > windowHeight/2-170)
+        &&  
+      (object1.body.position.x > windowWidth/2-125 && object1.body.position.x < windowWidth/2 ||
+        object1.body.position.x > windowWidth/2+100 && object1.body.position.x < windowWidth/2+500  ||
+        object1.body.position.x > windowWidth/2+300 && object1.body.position.x < windowWidth/2+700 
+        
+      )){
+          if (object1.body.position.y - object2.body.position.y < 25
+      && object2.body.position.y - object2.body.position.y < 25) {
+      score=score+1;
+      console.log("testing")
+    }
   }
 }
 
